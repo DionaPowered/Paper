@@ -401,4 +401,10 @@ public class GlobalConfiguration extends ConfigurationPart {
             }
         }
     }
+
+    public Zcy zcy;
+
+    public class Zcy extends ConfigurationPart {
+        public boolean disableNotchMoveCheck = true;
+    }
 }
