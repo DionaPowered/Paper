@@ -4,11 +4,6 @@ plugins {
     idea
 }
 
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
-
 val annotationsVersion = "26.0.1"
 val bungeeCordChatVersion = "1.20-R0.2"
 val adventureVersion = "4.20.0"
@@ -107,7 +102,7 @@ sourceSets {
     }
 }
 
-val outgoingVariants = arrayOf("runtimeElements", "apiElements", "sourcesElements", "javadocElements")
+val outgoingVariants = arrayOf("runtimeElements", "apiElements")
 val mainCapability = "${project.group}:${project.name}:${project.version}"
 configurations {
     val outgoing = outgoingVariants.map { named(it) }

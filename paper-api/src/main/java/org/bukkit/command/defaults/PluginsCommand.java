@@ -39,7 +39,7 @@ public class PluginsCommand extends BukkitCommand {
         Plugin[] plugins = Bukkit.getPluginManager().getPlugins();
 
         for (Plugin plugin : plugins) {
-            if (pluginList.length() > 0) {
+            if (!pluginList.isEmpty()) {
                 pluginList.append(ChatColor.WHITE);
                 pluginList.append(", ");
             }
@@ -47,7 +47,7 @@ public class PluginsCommand extends BukkitCommand {
             pluginList.append(plugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED);
             pluginList.append(plugin.getDescription().getName());
 
-            if (plugin.getDescription().getProvides().size() > 0) {
+            if (!plugin.getDescription().getProvides().isEmpty()) {
                 pluginList.append(" (").append(String.join(", ", plugin.getDescription().getProvides())).append(")");
             }
         }

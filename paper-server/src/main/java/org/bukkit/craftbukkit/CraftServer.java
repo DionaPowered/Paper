@@ -1075,7 +1075,7 @@ public final class CraftServer implements Server {
         this.loadIcon();
         this.loadCompatibilities();
         CraftMagicNumbers.INSTANCE.getCommodore().updateReroute(activeCompatibilities::contains);
-
+/*
         try {
             this.playerList.getIpBans().load();
         } catch (IOException ex) {
@@ -1086,6 +1086,7 @@ public final class CraftServer implements Server {
         } catch (IOException ex) {
             this.logger.log(Level.WARNING, "Failed to load banned-players.json, " + ex.getMessage());
         }
+ */
 
         org.spigotmc.SpigotConfig.init((File) this.console.options.valueOf("spigot-settings")); // Spigot
         this.console.paperConfigurations.reloadConfigs(this.console);
@@ -1127,10 +1128,10 @@ public final class CraftServer implements Server {
         int pollCount = 0;
 
         // Wait for at most 2.5 seconds for plugins to close their threads
-        while (pollCount < 50 && this.getScheduler().getActiveWorkers().size() > 0) {
+        while (pollCount < 50 && !this.getScheduler().getActiveWorkers().isEmpty()) {
             try {
                 Thread.sleep(50);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException ignored) {}
             pollCount++;
         }
 
@@ -1166,10 +1167,10 @@ public final class CraftServer implements Server {
         int pollCount = 0;
 
         // Wait for at most 5 seconds for plugins to close their threads
-        while (pollCount < 10*5 && getScheduler().getActiveWorkers().size() > 0) {
+        while (pollCount < 10*5 && !getScheduler().getActiveWorkers().isEmpty()) {
             try {
                 Thread.sleep(100);
-            } catch (InterruptedException e) {}
+            } catch (InterruptedException ignored) {}
             pollCount++;
         }
 
