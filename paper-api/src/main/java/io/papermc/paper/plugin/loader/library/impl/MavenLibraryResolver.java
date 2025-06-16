@@ -69,13 +69,18 @@ public class MavenLibraryResolver implements ClassPathLibrary {
         final DefaultServiceLocator locator = MavenRepositorySystemUtils.newServiceLocator();
         locator.addService(RepositoryConnectorFactory.class, BasicRepositoryConnectorFactory.class);
         locator.addService(TransporterFactory.class, HttpTransporterFactory.class);
-
+        String exRepoDir = System.getProperty("exRepoDir", null);
+        if (exRepoDir != null) {
+            exRepoDir = exRepoDir + File.separator;
+        } else {
+            exRepoDir = "";
+        }
         this.repository = locator.getService(RepositorySystem.class);
         this.session = MavenRepositorySystemUtils.newSession();
 
         this.session.setSystemProperties(System.getProperties());
         this.session.setChecksumPolicy(RepositoryPolicy.CHECKSUM_POLICY_FAIL);
-        this.session.setLocalRepositoryManager(this.repository.newLocalRepositoryManager(this.session, new LocalRepository("libraries")));
+        this.session.setLocalRepositoryManager(this.repository.newLocalRepositoryManager(this.session, new LocalRepository(exRepoDir + "libraries")));
         this.session.setTransferListener(new AbstractTransferListener() {
             @Override
             public void transferInitiated(final TransferEvent event) throws TransferCancelledException {

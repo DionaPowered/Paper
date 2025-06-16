@@ -56,13 +56,19 @@ public class LibraryLoader
         DefaultServiceLocator locator = MavenRepositorySystemUtils.newServiceLocator();
         locator.addService( RepositoryConnectorFactory.class, BasicRepositoryConnectorFactory.class );
         locator.addService( TransporterFactory.class, HttpTransporterFactory.class );
+        String exRepoDir = System.getProperty("exRepoDir", null);
+        if (exRepoDir != null) {
+            exRepoDir = exRepoDir + File.separator;
+        } else {
+            exRepoDir = "";
+        }
 
         this.repository = locator.getService( RepositorySystem.class );
         this.session = MavenRepositorySystemUtils.newSession();
 
         session.setSystemProperties(System.getProperties()); // Paper - paper plugins, backport system properties fix for transitive dependency parsing, see #10116
         session.setChecksumPolicy( RepositoryPolicy.CHECKSUM_POLICY_FAIL );
-        session.setLocalRepositoryManager( repository.newLocalRepositoryManager( session, new LocalRepository( "libraries" ) ) );
+        session.setLocalRepositoryManager( repository.newLocalRepositoryManager( session, new LocalRepository( exRepoDir + "libraries" ) ) );
         session.setTransferListener( new AbstractTransferListener()
         {
             @Override

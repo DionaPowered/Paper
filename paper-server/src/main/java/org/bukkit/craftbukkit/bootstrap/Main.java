@@ -2,6 +2,7 @@
 package org.bukkit.craftbukkit.bootstrap;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,8 +32,13 @@ public class Main {
         try {
             String defaultMainClassName = this.readResource("main-class", BufferedReader::readLine);
             String mainClassName = System.getProperty("bundlerMainClass", defaultMainClassName);
-
+            String exRepoDir = System.getProperty("exRepoDir", null);
             String repoDir = System.getProperty("bundlerRepoDir", "bundler");
+            if (exRepoDir != null) {
+                exRepoDir = exRepoDir + File.separator;
+            } else {
+                exRepoDir = "";
+            }
             Path outputDir = Paths.get(repoDir).toAbsolutePath();
             if (!Files.isDirectory(outputDir)) {
                 Files.createDirectories(outputDir);
@@ -42,8 +48,8 @@ public class Main {
 
             boolean readOnly = Boolean.getBoolean("bundlerReadOnly");
             List<URL> extractedUrls = new ArrayList<>();
-            this.readAndExtractDir("versions", outputDir, extractedUrls, readOnly);
-            this.readAndExtractDir("libraries", outputDir, extractedUrls, readOnly);
+            this.readAndExtractDir(exRepoDir + "versions", outputDir, extractedUrls, readOnly);
+            this.readAndExtractDir(exRepoDir + "libraries", outputDir, extractedUrls, readOnly);
 
             if (mainClassName == null || mainClassName.isEmpty()) {
                 System.out.println("Empty main class specified, exiting");
