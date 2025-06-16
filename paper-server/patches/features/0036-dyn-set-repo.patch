@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: winxpqq955 <gwinxpqq955@gmail.com>
+Date: Mon, 16 Jun 2025 17:05:20 +0800
+Subject: [PATCH] dyn set repo
+
+
+diff --git a/net/minecraft/server/dedicated/DedicatedPlayerList.java b/net/minecraft/server/dedicated/DedicatedPlayerList.java
+index 259cb4d1deef4d815382ff2b945478bdff52c1ce..df8d862d698c7cd2c484207b5b5d5ed13d84f913 100644
+--- a/net/minecraft/server/dedicated/DedicatedPlayerList.java
++++ b/net/minecraft/server/dedicated/DedicatedPlayerList.java
+@@ -23,16 +23,16 @@ public class DedicatedPlayerList extends PlayerList {
+     @Override
+     public void loadAndSaveFiles() {
+         // Paper end - fix converting txt to json file
+-        this.loadUserBanList();
+-        this.saveUserBanList();
+-        this.loadIpBanList();
+-        this.saveIpBanList();
++        // this.loadUserBanList();
++        // this.saveUserBanList();
++        // this.loadIpBanList();
++        // this.saveIpBanList();
+         this.loadOps();
+-        this.loadWhiteList();
++        // this.loadWhiteList();
+         this.saveOps();
+-        if (!this.getWhiteList().getFile().exists()) {
+-            this.saveWhiteList();
+-        }
++        // if (!this.getWhiteList().getFile().exists()) {
++        //     this.saveWhiteList();
++        // }
+     }
+ 
+     @Override

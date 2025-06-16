@@ -1,0 +1,47 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: winxpqq955 <gwinxpqq955@gmail.com>
+Date: Mon, 16 Jun 2025 17:15:51 +0800
+Subject: [PATCH] remove sb move speed check
+
+
+diff --git a/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index a2c70d36f79b7f8560923e098e52fa7f82ca7416..091842c322b4758257392faec04c6278b372903c 100644
+--- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -553,16 +553,19 @@ public class ServerGamePacketListenerImpl
+                     this.connection.send(ClientboundMoveVehiclePacket.fromEntity(rootVehicle));
+                     return;
+                 }
+-                // Paper end - Prevent moving into unloaded chunks
+-                if (d7 - d6 > Math.max(100.0, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2)) && !this.isSingleplayerOwner()) {
+-                    // CraftBukkit end
+-                    LOGGER.warn(
+-                        "{} (vehicle of {}) moved too quickly! {},{},{}", rootVehicle.getName().getString(), this.player.getName().getString(), d3, d4, d5
+-                    );
+-                    this.send(ClientboundMoveVehiclePacket.fromEntity(rootVehicle));
+-                    return;
++                if (!io.papermc.paper.configuration.GlobalConfiguration.get().zcy.disableNotchMoveCheck) {
++                    // Paper end - Prevent moving into unloaded chunks
++                    if (d7 - d6 > Math.max(100.0, Math.pow(org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed, 2)) && !this.isSingleplayerOwner()) {
++                        // CraftBukkit end
++                        LOGGER.warn(
++                            "{} (vehicle of {}) moved too quickly! {},{},{}", rootVehicle.getName().getString(), this.player.getName().getString(), d3, d4, d5
++                        );
++                        this.send(ClientboundMoveVehiclePacket.fromEntity(rootVehicle));
++                        return;
++                    }
+                 }
+ 
++
+                 AABB oldBox = rootVehicle.getBoundingBox(); // Paper - copy from player movement packet
+                 d3 = d - this.vehicleLastGoodX; // Paper - diff on change, used for checking large move vectors above
+                 d4 = d1 - this.vehicleLastGoodY; // Paper - diff on change, used for checking large move vectors above
+@@ -1613,6 +1616,8 @@ public class ServerGamePacketListenerImpl
+             return false;
+         } else if (this.player.isChangingDimension()) {
+             return false;
++        } else if (io.papermc.paper.configuration.GlobalConfiguration.get().zcy.disableNotchMoveCheck) {
++            return false;
+         } else {
+             GameRules gameRules = this.player.serverLevel().getGameRules();
+             return !gameRules.getBoolean(GameRules.RULE_DISABLE_PLAYER_MOVEMENT_CHECK)

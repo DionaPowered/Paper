@@ -1,0 +1,63 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: winxpqq955 <gwinxpqq955@gmail.com>
+Date: Mon, 16 Jun 2025 16:22:04 +0800
+Subject: [PATCH] remove agreed eula
+
+
+diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
+index 9aa664537cc37e44db46d5a2a64ae3116938c681..06dd231871c68284d42dd9573ca03ecc3b677b75 100644
+--- a/net/minecraft/server/Main.java
++++ b/net/minecraft/server/Main.java
+@@ -116,8 +116,8 @@ public class Main {
+             DedicatedServerSettings dedicatedServerSettings = new DedicatedServerSettings(optionSet); // CraftBukkit - CLI argument support
+             dedicatedServerSettings.forceSave();
+             RegionFileVersion.configure(dedicatedServerSettings.getProperties().regionFileComression);
+-            Path path2 = Paths.get("eula.txt");
+-            Eula eula = new Eula(path2);
++            // Path path2 = Paths.get("eula.txt");
++            // Eula eula = new Eula(path2);
+             // Paper start - load config files early for access below if needed
+             org.bukkit.configuration.file.YamlConfiguration bukkitConfiguration = io.papermc.paper.configuration.PaperConfigurations.loadLegacyConfigFile((File) optionSet.valueOf("bukkit-settings"));
+             org.bukkit.configuration.file.YamlConfiguration spigotConfiguration = io.papermc.paper.configuration.PaperConfigurations.loadLegacyConfigFile((File) optionSet.valueOf("spigot-settings"));
+@@ -136,7 +136,7 @@ public class Main {
+                 commandsConfiguration.setDefaults(org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(new java.io.InputStreamReader(Main.class.getClassLoader().getResourceAsStream("configurations/commands.yml"), com.google.common.base.Charsets.UTF_8)));
+                 commandsConfiguration.save(commandFile);
+                 // CraftBukkit end
+-                LOGGER.info("Initialized '{}' and '{}'", path1.toAbsolutePath(), path2.toAbsolutePath());
++                LOGGER.info("Initialized '{}'", path1.toAbsolutePath());
+                 return;
+             }
+ 
+@@ -147,11 +147,6 @@ public class Main {
+                 LOGGER.error("By using this setting you are indicating your agreement to Mojang's EULA (https://aka.ms/MinecraftEULA).");
+                 LOGGER.error("If you do not agree to the above EULA please stop your server and remove this flag immediately.");
+             }
+-            if (!eula.hasAgreedToEULA() && !eulaAgreed) {
+-                // Spigot end
+-                LOGGER.info("You need to agree to the EULA in order to run the server. Go to eula.txt for more info.");
+-                return;
+-            }
+ 
+             // Paper start - Detect headless JRE
+             String awtException = io.papermc.paper.util.ServerEnvironment.awtDependencyCheck();
+diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
+index d2db6e3a4af13984b0a790fb38e83c253914a973..fca925d80dabaf816e26e1e5835ffef319e973f1 100644
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -182,16 +182,6 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+             LOGGER.warn("To start the server with more ram, launch it as \"java -Xmx1024M -Xms1024M -jar minecraft_server.jar\"");
+         }
+ 
+-        // Paper start - detect running as root
+-        if (io.papermc.paper.util.ServerEnvironment.userIsRootOrAdmin()) {
+-            LOGGER.warn("****************************");
+-            LOGGER.warn("YOU ARE RUNNING THIS SERVER AS AN ADMINISTRATIVE OR ROOT USER. THIS IS NOT ADVISED.");
+-            LOGGER.warn("YOU ARE OPENING YOURSELF UP TO POTENTIAL RISKS WHEN DOING THIS.");
+-            LOGGER.warn("FOR MORE INFORMATION, SEE https://madelinemiller.dev/blog/root-minecraft-server/");
+-            LOGGER.warn("****************************");
+-        }
+-        // Paper end - detect running as root
+-
+         LOGGER.info("Loading properties");
+         DedicatedServerProperties properties = this.settings.getProperties();
+         if (this.isSingleplayer()) {

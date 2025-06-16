@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: winxpqq955 <gwinxpqq955@gmail.com>
+Date: Mon, 16 Jun 2025 16:55:27 +0800
+Subject: [PATCH] move change
+
+
+diff --git a/net/minecraft/server/dedicated/DedicatedServerProperties.java b/net/minecraft/server/dedicated/DedicatedServerProperties.java
+index f6518e29f805018c72222f5aaa7b662071665b65..ba31a052a6cd7ee27f06015cf94822f122f2aa96 100644
+--- a/net/minecraft/server/dedicated/DedicatedServerProperties.java
++++ b/net/minecraft/server/dedicated/DedicatedServerProperties.java
+@@ -46,12 +46,12 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+     private static final Pattern SHA1 = Pattern.compile("^[a-fA-F0-9]{40}$");
+     private static final Splitter COMMA_SPLITTER = Splitter.on(',').trimResults();
+     public final boolean debug = this.get("debug", false); // CraftBukkit
+-    public final boolean onlineMode = this.get("online-mode", true);
++    public final boolean onlineMode = this.get("online-mode", false);
+     public final boolean preventProxyConnections = this.get("prevent-proxy-connections", false);
+     public final String serverIp = this.get("server-ip", "");
+     public final boolean pvp = this.get("pvp", true);
+     public final boolean allowFlight = this.get("allow-flight", false);
+-    public final String motd = this.get("motd", "A Minecraft Server");
++    public final String motd = this.get("motd", "");
+     public final String bugReportLink = this.get("bug-report-link", "");
+     public final boolean forceGameMode = this.get("force-gamemode", false);
+     public final boolean enforceWhitelist = this.get("enforce-whitelist", false);
+@@ -69,18 +69,18 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+     public final int rconPort = this.get("rcon.port", 25575);
+     public final String rconPassword = this.get("rcon.password", "");
+     public final boolean hardcore = this.get("hardcore", false);
+-    public final boolean allowNether = this.get("allow-nether", true);
++    public final boolean allowNether = this.get("allow-nether", false);
+     public final boolean spawnMonsters = this.get("spawn-monsters", true);
+     public final boolean useNativeTransport = this.get("use-native-transport", true);
+     public final boolean enableCommandBlock = this.get("enable-command-block", false);
+-    public final int spawnProtection = this.get("spawn-protection", 16);
++    public final int spawnProtection = this.get("spawn-protection", 0);
+     public final int opPermissionLevel = this.get("op-permission-level", 4);
+     public final int functionPermissionLevel = this.get("function-permission-level", 2);
+     public final long maxTickTime = this.get("max-tick-time", TimeUnit.MINUTES.toMillis(1L));
+     public final int maxChainedNeighborUpdates = this.get("max-chained-neighbor-updates", 1000000);
+     public final int rateLimitPacketsPerSecond = this.get("rate-limit", 0);
+-    public final int viewDistance = this.get("view-distance", 10);
+-    public final int simulationDistance = this.get("simulation-distance", 10);
++    public final int viewDistance = this.get("view-distance", 16);
++    public final int simulationDistance = this.get("simulation-distance", 8);
+     public final int maxPlayers = this.get("max-players", 20);
+     public final int networkCompressionThreshold = this.get("network-compression-threshold", 256);
+     public final boolean broadcastRconToOps = this.get("broadcast-rcon-to-ops", true);
